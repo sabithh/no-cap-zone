@@ -4,28 +4,18 @@ export function initPageTransition(targetPage, duration = 1000) {
         const overlay = document.createElement('div');
         overlay.className = 'page-transition active';
         overlay.innerHTML = `
-            <div class="cube-container">
-                <div class="cube">
-                    <div class="cube-face face-front"></div>
-                    <div class="cube-face face-back"></div>
-                    <div class="cube-face face-right"></div>
-                    <div class="cube-face face-left"></div>
-                    <div class="cube-face face-top"></div>
-                    <div class="cube-face face-bottom"></div>
-                </div>
+            <div style="width: 200px;">
+                <div class="skeleton skeleton-text" style="height: 40px; margin-bottom: 15px;"></div>
+                <div class="skeleton skeleton-text" style="height: 20px;"></div>
             </div>
         `;
         document.body.appendChild(overlay);
 
         // 3D rotation effect on body
-        // Fluid 3D Flow effect on body
-        // Custom bezier for "liquid" feel
-        document.body.style.transition = `all ${duration}ms cubic-bezier(0.4, 0.0, 0.2, 1)`;
-
-        // Transform: subtle zoom IN (1.05) to create momentum into the next page
-        document.body.style.transform = 'scale(1.05)';
+        // Minimal fade and scale effect
+        document.body.style.transition = `opacity ${duration}ms ease, transform ${duration}ms ease`;
         document.body.style.opacity = '0';
-        document.body.style.filter = 'blur(10px)';
+        document.body.style.transform = 'scale(0.98)';
 
         setTimeout(() => {
             window.location.href = targetPage;
