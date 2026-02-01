@@ -20,11 +20,15 @@ const db = getDatabase(app);
 // Function to save user choice
 export function saveUserChoice(name, choice) {
     const usersRef = ref(db, 'users');
-    push(usersRef, {
+    console.log('Attempting to save to Firebase:', { name, choice }); // Debug log
+
+    return push(usersRef, {
         name: name,
         choice: choice,
         timestamp: new Date().toISOString()
-    });
+    })
+        .then(() => console.log('Successfully saved to Firebase!'))
+        .catch((error) => console.error('Error saving to Firebase:', error));
 }
 
 // Function to subscribe to "Recent Gays" list (option2)

@@ -60,9 +60,10 @@
 
                 // Save to Firebase
                 try {
-                    saveUserChoice(userName, choice);
+                    await saveUserChoice(userName, choice);
                 } catch (error) {
                     console.error('Error saving to Firebase:', error);
+                    alert('Database Error: ' + error.message);
                 }
 
                 // Navigate based on choice
