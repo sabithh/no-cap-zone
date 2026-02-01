@@ -55,17 +55,22 @@
         // Fetch recent gays list
         const listElement = document.getElementById('gaysList');
 
-        subscribeToRecentGays((gays) => {
-            if (gays && gays.length > 0) {
-                listElement.innerHTML = gays
-                    .map((person, index) => {
-                        return `<li>${index + 1}. ${person.name}</li>`;
-                    })
-                    .join('');
-            } else {
-                listElement.innerHTML = '<li>No one has chosen this option yet!</li>';
+        subscribeToRecentGays(
+            (gays) => {
+                if (gays && gays.length > 0) {
+                    listElement.innerHTML = gays
+                        .map((person, index) => {
+                            return `<li>${index + 1}. ${person.name}</li>`;
+                        })
+                        .join('');
+                } else {
+                    listElement.innerHTML = '<li>No one has chosen this option yet!</li>';
+                }
+            },
+            (error) => {
+                listElement.innerHTML = `<li style="color: #ff0055;">Error: ${error.message}. Check console.</li>`;
             }
-        });
+        );
 
         // Add event listener for video
         const video = document.getElementById('penguinVideo');

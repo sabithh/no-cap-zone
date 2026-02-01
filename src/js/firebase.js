@@ -28,15 +28,17 @@ export function saveUserChoice(name, choice) {
 }
 
 // Function to subscribe to "Recent Gays" list (option2)
-export function subscribeToRecentGays(callback) {
+export function subscribeToRecentGays(onData, onError) {
     const usersRef = ref(db, 'users');
     // Get last 50 entries
     const q = query(usersRef, limitToLast(50));
 
     onValue(q, (snapshot) => {
         const data = snapshot.val();
+        console.log('Firebase Data Received:', data); // Debug log
+
         if (!data) {
-            callback([]);
+            onData([]);
             return;
         }
 
@@ -49,6 +51,9 @@ export function subscribeToRecentGays(callback) {
             .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
             .slice(0, 10);
 
-        callback(recentGays);
+        onData(recentGays);
+    }, (error) => {
+        console.error('Firebase Error:', error);
+        if (onError) onError(error);
     });
 }
