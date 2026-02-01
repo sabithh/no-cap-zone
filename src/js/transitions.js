@@ -16,8 +16,8 @@ export function initPageTransition(targetPage, duration = 1000) {
         // Custom bezier for "liquid" feel
         document.body.style.transition = `all ${duration}ms cubic-bezier(0.4, 0.0, 0.2, 1)`;
 
-        // Transform: subtle zoom out, tilt, and blur ("melting" away)
-        document.body.style.transform = 'scale(0.95) translateY(-30px) rotateX(5deg)';
+        // Transform: subtle zoom IN (1.05) to create momentum into the next page
+        document.body.style.transform = 'scale(1.05)';
         document.body.style.opacity = '0';
         document.body.style.filter = 'blur(10px)';
 
