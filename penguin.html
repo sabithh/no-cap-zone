@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're The Penguin! 🐧 - No Cap Zone</title>
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body>
+    <div id="canvas3d"></div>
+
+    <div class="container">
+        <div class="result-container">
+            <h1 class="result-title">YOU'RE THE PENGUIN! 🐧</h1>
+
+            <div class="video-container">
+                <video id="penguinVideo" controls autoplay>
+                    <source src="/videos/penguin.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="recent-list">
+                <h3>Recent Gays List 🏳️‍🌈</h3>
+                <ul id="gaysList">
+                    <li>Loading...</li>
+                </ul>
+            </div>
+
+            <a href="https://www.instagram.com/ai.mestech?igsh=MW5qYndkcmk2OGoxbA%3D%3D&utm_source=qr" target="_blank"
+                class="instagram-link">
+                <img src="/mestech-logo.png" alt="MESTECH" class="instagram-logo">
+                Follow for more updates
+            </a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Scene3D } from '/src/js/scene3d.js';
+        import { CursorEffects, makeSceneInteractive } from '/src/js/cursor-effects.js';
+        import { subscribeToRecentGays } from '/src/js/firebase.js';
+
+        // Initialize 3D scene
+        const scene = new Scene3D('canvas3d');
+
+        // Initialize cursor effects
+        const cursorEffects = new CursorEffects();
+
+        // Make scene respond to mouse
+        makeSceneInteractive(scene, cursorEffects);
+
+        // Fetch recent gays list
+        const listElement = document.getElementById('gaysList');
+
+        subscribeToRecentGays((gays) => {
+            if (gays && gays.length > 0) {
+                listElement.innerHTML = gays
+                    .map((person, index) => {
+                        return `<li>${index + 1}. ${person.name}</li>`;
+                    })
+                    .join('');
+            } else {
+                listElement.innerHTML = '<li>No one has chosen this option yet!</li>';
+            }
+        });
+
+        // Add event listener for video
+        const video = document.getElementById('penguinVideo');
+        video.addEventListener('error', () => {
+            console.log('Video file not found, using placeholder');
+        });
+    </script>
+</body>
+
+</html>

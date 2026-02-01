@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Cap Zone - Enter Your Name</title>
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body>
+  <div id="canvas3d"></div>
+
+  <div class="container">
+    <h1 class="comic-title">NO CAP ZONE</h1>
+
+    <div class="speech-bubble">
+      <form id="nameForm">
+        <div class="form-group">
+          <label for="userName">WHO'S THIS?</label>
+          <input type="text" id="userName" name="userName" placeholder="Enter your name..." required autocomplete="off">
+        </div>
+        <button type="submit" class="btn">NEXT ⚡</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { Scene3D } from '/src/js/scene3d.js';
+    import { initPageTransition } from '/src/js/transitions.js';
+    import { CursorEffects, makeSceneInteractive } from '/src/js/cursor-effects.js';
+
+    // Initialize 3D scene
+    const scene = new Scene3D('canvas3d');
+
+    // Initialize cursor effects
+    const cursorEffects = new CursorEffects();
+
+    // Make scene respond to mouse
+    makeSceneInteractive(scene, cursorEffects);
+
+    // Handle form submission
+    const form = document.getElementById('nameForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const userName = document.getElementById('userName').value.trim();
+      if (userName) {
+        // Store name in localStorage
+        localStorage.setItem('userName', userName);
+
+        // Transition to question page
+        await initPageTransition('/question.html', 800);
+      }
+    });
+  </script>
+</body>
+
+</html>

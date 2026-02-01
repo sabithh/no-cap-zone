@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Cap Zone - Your Choice</title>
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body>
+    <div id="canvas3d"></div>
+
+    <div class="container">
+        <div class="speech-bubble" style="max-width: 900px;">
+            <p class="question">What is your plan for 3rd Feb at 4:30 PM?</p>
+
+            <div class="options">
+                <div class="option-card" data-choice="option1">
+                    <div class="option-number">1</div>
+                    <div class="option-text">Be in front of the college</div>
+                </div>
+
+                <div class="option-card" data-choice="option2">
+                    <div class="option-number">2</div>
+                    <div class="option-text">Go home</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Scene3D } from '/src/js/scene3d.js';
+        import { initPageTransition } from '/src/js/transitions.js';
+        import { CursorEffects, makeSceneInteractive } from '/src/js/cursor-effects.js';
+        import { saveUserChoice } from '/src/js/firebase.js';
+
+        // Initialize 3D scene
+        const scene = new Scene3D('canvas3d');
+
+        // Initialize cursor effects
+        const cursorEffects = new CursorEffects();
+
+        // Make scene respond to mouse
+        makeSceneInteractive(scene, cursorEffects);
+
+        // Get stored name
+        const userName = localStorage.getItem('userName') || 'Hero';
+
+        // Handle option selection
+        const optionCards = document.querySelectorAll('.option-card');
+
+        optionCards.forEach(card => {
+            card.addEventListener('click', async () => {
+                const choice = card.dataset.choice;
+
+                // Store choice
+                localStorage.setItem('userChoice', choice);
+
+                // Save to Firebase
+                try {
+                    saveUserChoice(userName, choice);
+                } catch (error) {
+                    console.error('Error saving to Firebase:', error);
+                }
+
+                // Navigate based on choice
+                if (choice === 'option1') {
+                    await initPageTransition('/penguin.html', 800);
+                } else {
+                    // Play sound effect for option 2
+                    const audio = new Audio('/sounds/fhaaa.mp3');
+                    audio.play().catch(() => console.log('Audio autoplay blocked'));
+
+                    setTimeout(async () => {
+                        await initPageTransition('/result.html', 800);
+                    }, 500);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

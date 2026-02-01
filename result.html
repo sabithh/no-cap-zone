@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are Gay - No Cap Zone</title>
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body>
+    <div id="canvas3d"></div>
+
+    <div class="container">
+        <div class="result-container">
+            <h1 class="result-title">YOU ARE GAY!</h1>
+
+            <div class="video-container">
+                <video id="gayVideo" controls autoplay>
+                    <source src="/videos/gay.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <a href="https://www.instagram.com/ai.mestech?igsh=MW5qYndkcmk2OGoxbA%3D%3D&utm_source=qr" target="_blank"
+                class="instagram-link">
+                <img src="/mestech-logo.png" alt="MESTECH" class="instagram-logo">
+                Follow for more updates
+            </a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Scene3D } from '/src/js/scene3d.js';
+        import { CursorEffects, makeSceneInteractive } from '/src/js/cursor-effects.js';
+
+        // Initialize 3D scene
+        const scene = new Scene3D('canvas3d');
+
+        // Initialize cursor effects
+        const cursorEffects = new CursorEffects();
+
+        // Make scene respond to mouse
+        makeSceneInteractive(scene, cursorEffects);
+
+        // Add event listener for video
+        const video = document.getElementById('gayVideo');
+        video.addEventListener('error', () => {
+            console.log('Video file not found, using placeholder');
+        });
+    </script>
+</body>
+
+</html>

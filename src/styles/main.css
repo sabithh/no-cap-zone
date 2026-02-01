@@ -1,0 +1,533 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Inter:wght@400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #ff00ff;
+  --secondary: #00ffff;
+  --accent: #ffff00;
+  --dark: #0a0a0f;
+  --glow: rgba(255, 0, 255, 0.5);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--dark);
+  color: white;
+  overflow-x: hidden;
+  min-height: 100vh;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><circle cx="16" cy="16" r="2" fill="%2300ffff"/><circle cx="16" cy="16" r="8" stroke="%23ff00ff" stroke-width="1.5" fill="none"/><line x1="16" y1="4" x2="16" y2="12" stroke="%23ffff00" stroke-width="1.5"/><line x1="16" y1="20" x2="16" y2="28" stroke="%23ffff00" stroke-width="1.5"/><line x1="4" y1="16" x2="12" y2="16" stroke="%23ffff00" stroke-width="1.5"/><line x1="20" y1="16" x2="28" y2="16" stroke="%23ffff00" stroke-width="1.5"/></svg>') 16 16, auto;
+}
+
+/* 3D Canvas Background */
+#canvas3d {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Main Container */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Comic Title */
+.comic-title {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(3rem, 10vw, 8rem);
+  color: var(--accent);
+  text-shadow:
+    0 0 20px var(--glow),
+    5px 5px 0 var(--primary),
+    10px 10px 0 var(--secondary);
+  animation: float 3s ease-in-out infinite;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+/* Speech Bubble */
+.speech-bubble {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 3px solid var(--primary);
+  border-radius: 30px;
+  padding: 3rem;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  box-shadow:
+    0 0 30px var(--glow),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+  animation: bubble-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bubble-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-top: 30px solid var(--primary);
+  filter: drop-shadow(0 0 10px var(--glow));
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 2rem;
+}
+
+label {
+  font-family: 'Comic Neue', cursive;
+  font-size: 1.5rem;
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px var(--secondary);
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--secondary);
+  border-radius: 15px;
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+  transform: scale(1.02);
+}
+
+/* Buttons */
+.btn {
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border: none;
+  border-radius: 15px;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 30px var(--glow);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover {
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 0 50px var(--primary);
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* Question Text */
+.question {
+  font-family: 'Comic Neue', cursive;
+  font-size: 2rem;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 3rem;
+  text-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
+  line-height: 1.4;
+}
+
+/* Options Container */
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Option Cards */
+.option-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 3px solid var(--primary);
+  border-radius: 20px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.option-card:hover {
+  transform: translateY(-20px) rotateY(10deg) scale(1.05);
+  box-shadow:
+    0 20px 60px var(--glow),
+    inset 0 0 30px rgba(255, 0, 255, 0.2);
+  border-color: var(--accent);
+}
+
+.option-card:active {
+  transform: translateY(-10px) scale(0.95);
+}
+
+.option-number {
+  font-family: 'Bangers', cursive;
+  font-size: 3rem;
+  color: var(--secondary);
+  text-shadow: 0 0 15px var(--secondary);
+  margin-bottom: 1rem;
+}
+
+.option-text {
+  font-family: 'Comic Neue', cursive;
+  font-size: 1.3rem;
+  color: white;
+  line-height: 1.5;
+}
+
+/* Result Page */
+.result-container {
+  text-align: center;
+  max-width: 900px;
+}
+
+.result-title {
+  font-family: 'Bangers', cursive;
+  font-size: clamp(2rem, 8vw, 5rem);
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2rem;
+  animation: gradient-shift 3s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradient-shift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Video Container */
+.video-container {
+  margin: 3rem 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 50px var(--glow);
+  border: 3px solid var(--primary);
+  background: black;
+}
+
+video {
+  width: 100%;
+  max-width: 800px;
+  display: block;
+}
+
+/* Recent List */
+.recent-list {
+  margin-top: 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--secondary);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.recent-list h3 {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 15px var(--accent);
+}
+
+.recent-list ul {
+  list-style: none;
+}
+
+.recent-list li {
+  font-family: 'Comic Neue', cursive;
+  font-size: 1.2rem;
+  color: var(--secondary);
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary);
+  animation: slide-in 0.5s ease forwards;
+  opacity: 0;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.recent-list li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.recent-list li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.recent-list li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.recent-list li:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.recent-list li:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+/* Page Transition */
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary), var(--dark), var(--secondary));
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.page-transition.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.transition-text {
+  font-family: 'Bangers', cursive;
+  font-size: 4rem;
+  color: var(--accent);
+  text-shadow: 0 0 50px var(--glow);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Loading Animation */
+.loading {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  border: 8px solid var(--primary);
+  border-radius: 50%;
+  border-top-color: var(--accent);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .options {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .speech-bubble {
+    padding: 2rem;
+  }
+
+  .comic-title {
+    font-size: 3rem;
+  }
+
+  .question {
+    font-size: 1.5rem;
+  }
+}
+
+/* Glitch Effect for hover states */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.option-card:hover .option-number {
+  animation: glitch 0.3s infinite;
+}
+
+/* Instagram Link */
+.instagram-link {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  font-family: 'Comic Neue', cursive;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+  border: none;
+  border-radius: 15px;
+  color: white;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 30px rgba(131, 58, 180, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.instagram-link::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.instagram-link:hover {
+  transform: scale(1.1) rotate(-2deg);
+  box-shadow: 0 0 50px rgba(131, 58, 180, 0.8);
+}
+
+.instagram-link:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.instagram-link:active {
+  transform: scale(0.95);
+}
+
+.instagram-logo {
+  height: 50px;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 10px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
