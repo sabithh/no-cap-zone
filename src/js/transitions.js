@@ -4,9 +4,15 @@ export function initPageTransition(targetPage, duration = 1000) {
         const overlay = document.createElement('div');
         overlay.className = 'page-transition active';
         overlay.innerHTML = `
-            <div style="width: 200px;">
-                <div class="skeleton skeleton-text" style="height: 40px; margin-bottom: 15px;"></div>
-                <div class="skeleton skeleton-text" style="height: 20px;"></div>
+            <div class="cube-container">
+                <div class="cube">
+                    <div class="cube-face face-front"></div>
+                    <div class="cube-face face-back"></div>
+                    <div class="cube-face face-right"></div>
+                    <div class="cube-face face-left"></div>
+                    <div class="cube-face face-top"></div>
+                    <div class="cube-face face-bottom"></div>
+                </div>
             </div>
         `;
         document.body.appendChild(overlay);
