@@ -12,8 +12,14 @@ export function initPageTransition(targetPage, duration = 1000) {
         document.body.appendChild(overlay);
 
         // 3D rotation effect on body
-        document.body.style.transition = `transform ${duration}ms cubic-bezier(0.68, -0.55, 0.265, 1.55)`;
-        document.body.style.transform = 'rotateY(90deg) scale(0.8)';
+        // Fluid 3D Flow effect on body
+        // Custom bezier for "liquid" feel
+        document.body.style.transition = `all ${duration}ms cubic-bezier(0.4, 0.0, 0.2, 1)`;
+
+        // Transform: subtle zoom out, tilt, and blur ("melting" away)
+        document.body.style.transform = 'scale(0.95) translateY(-30px) rotateX(5deg)';
+        document.body.style.opacity = '0';
+        document.body.style.filter = 'blur(10px)';
 
         setTimeout(() => {
             window.location.href = targetPage;
