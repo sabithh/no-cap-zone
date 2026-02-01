@@ -10,7 +10,8 @@ const firebaseConfig = {
     storageBucket: "no-cap-zone.firebasestorage.app",
     messagingSenderId: "418262725511",
     appId: "1:418262725511:web:8742bd8a935d58e9195922",
-    measurementId: "G-VWSLSTG1VT"
+    measurementId: "G-VWSLSTG1VT",
+    databaseURL: "https://no-cap-zone-default-rtdb.firebaseio.com"
 };
 
 // Initialize Firebase
