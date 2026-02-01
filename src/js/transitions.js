@@ -3,7 +3,12 @@ export function initPageTransition(targetPage, duration = 1000) {
         // Create transition overlay
         const overlay = document.createElement('div');
         overlay.className = 'page-transition active';
-        overlay.innerHTML = '<div class="transition-text">LOADING...</div>';
+        overlay.innerHTML = `
+            <div style="width: 200px;">
+                <div class="skeleton skeleton-text" style="height: 40px; margin-bottom: 15px;"></div>
+                <div class="skeleton skeleton-text" style="height: 20px;"></div>
+            </div>
+        `;
         document.body.appendChild(overlay);
 
         // 3D rotation effect on body
