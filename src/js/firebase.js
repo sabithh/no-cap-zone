@@ -11,7 +11,7 @@ const firebaseConfig = {
     messagingSenderId: "418262725511",
     appId: "1:418262725511:web:8742bd8a935d58e9195922",
     measurementId: "G-VWSLSTG1VT",
-    databaseURL: "https://no-cap-zone.firebaseio.com"
+    databaseURL: "https://no-cap-zone-default-rtdb.firebaseio.com"
 };
 
 // Initialize Firebase
